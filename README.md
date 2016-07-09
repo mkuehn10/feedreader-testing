@@ -1,7 +1,7 @@
 # How to run this project
-* Clone the repository and open the index.html file.
-* Jasmine test suites are located in spec/feedreader.js.
-* Results of the tests will be at the bottom of the index.html file.
+* Clone the repository and open the `index.html` file.
+* Jasmine test suites are located in `jasmine/spec/feedreader.js`.
+* Results of the tests will be at the bottom of the `index.html` file.
 
 
 
