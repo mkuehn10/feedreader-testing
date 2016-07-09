@@ -59,7 +59,7 @@ $(function() {
          * hiding/showing of the menu element.
          */
         it('should be hidden by default', function() {
-            expect($('body').attr('class')).toBe('menu-hidden');
+            expect($('body').hasClass('menu-hidden')).toBe(true);
         });
         /* A test that ensures the menu changes
          * visibility when the menu icon is clicked. This test
@@ -67,10 +67,10 @@ $(function() {
          * clicked and does it hide when clicked again.
          */
         it('should unhide and hide when clicked', function() {
-            $('.menu-icon-link').trigger('click');
-            expect(expect($('body').attr('class')).not.toBe('menu-hidden'));
-            $('.menu-icon-link').trigger('click');
-            expect(expect($('body').attr('class')).toBe('menu-hidden'));
+            $('.menu-icon-link').click();
+            expect(expect($('body').hasClass('menu-hidden')).toBe(false));
+            $('.menu-icon-link').click();
+            expect(expect($('body').hasClass('menu-hidden')).toBe(true));
 
         });
     });
@@ -95,12 +95,26 @@ $(function() {
 
     /* A test suite named "New Feed Selection" */
     describe('New Feed Selection', function() {
-        var originalHeader = $('.header-title').html();
+        //var originalHeader = $('.header-title').html();
+        var firstFeedHeader = '';
+        var firstFeedContent = '';
+        var secondFeedContent = '';
+        var secondFeedHeader = '';
 
         beforeEach(function(done) {
-            loadFeed(1, function() {
-                done();
+            loadFeed(0, function() {
+                firstFeedHeader = $('.header-title').html();
+                firstFeedContent = $('.feed').html();
+                loadFeed(1, function () {
+                    secondFeedHeader = $('.header-title').html();
+                    secondFeedContent = $('.feed').html();
+                    done();
+                })
             });
+        });
+
+        afterEach(function(done){
+            loadFeed(0, done);
         });
 
         /* A test that ensures when a new feed is loaded
@@ -108,9 +122,9 @@ $(function() {
          * Remember, loadFeed() is asynchronous.
          */
         it('changes the content', function(done) {
-            expect($('.header-title').html()).not.toBe(originalHeader);
+            expect(firstFeedHeader).not.toEqual(secondFeedHeader);
+            expect(firstFeedContent).not.toEqual(secondFeedContent);
             done();
-            loadFeed(0);
         });
     });
 }());
